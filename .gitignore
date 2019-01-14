@@ -1,0 +1,48 @@
+# autogen.sh
+/aclocal.m4
+/autom4te.cache/
+/configure
+/Makefile.in
+/tests/package.m4
+/tests/testsuite
+build-aux/
+
+# configure
+.deps/
+atconfig
+config.log
+config.status
+Makefile
+
+# make all
+.dirstamp
+rngminder
+*.o
+
+# make check
+testsuite.dir/
+testsuite.log
+
+# make check-valgrind
+test-suite-drd.log
+test-suite-drd.log.dir/
+test-suite-helgrind.log
+test-suite-helgrind.log.dir/
+test-suite-memcheck.log
+test-suite-memcheck.log.dir/
+test-suite-sgcheck.log
+test-suite-sgcheck.log.dir/
+
+# make check-code-coverage
+coverage.info
+coverage/
+*.gcda
+*.gcno
+
+# make doxygen-*
+doxygen-doc/
+
+# make dist*
+rngminder-*.shar.gz
+rngminder-*.tar.*
+rngminder-*.zip

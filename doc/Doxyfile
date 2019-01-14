@@ -1,0 +1,78 @@
+# Doxyfile 1.8.13
+
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+PROJECT_NAME           = $(PROJECT)
+PROJECT_NUMBER         = $(VERSION)
+OUTPUT_DIRECTORY       = $(DOCDIR)
+OPTIMIZE_OUTPUT_FOR_C  = YES
+#---------------------------------------------------------------------------
+# Build related configuration options
+#---------------------------------------------------------------------------
+EXTRACT_STATIC         = YES
+SHOW_USED_FILES        = NO
+#---------------------------------------------------------------------------
+# Configuration options related to warning and progress messages
+#---------------------------------------------------------------------------
+QUIET                  = YES
+WARN_NO_PARAMDOC       = YES
+#---------------------------------------------------------------------------
+# Configuration options related to the input files
+#---------------------------------------------------------------------------
+INPUT                  = $(SRCDIR)/README.md \
+                         $(SRCDIR)/src
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = $(SRCDIR)/README.md
+#---------------------------------------------------------------------------
+# Configuration options related to source browsing
+#---------------------------------------------------------------------------
+VERBATIM_HEADERS       = NO
+#---------------------------------------------------------------------------
+# Configuration options related to the HTML output
+#---------------------------------------------------------------------------
+GENERATE_HTML          = $(GENERATE_HTML)
+HTML_EXTRA_FILES       = $(SRCDIR)/external/js/MathJax.js
+HTML_DYNAMIC_SECTIONS  = YES
+GENERATE_HTMLHELP      = $(GENERATE_HTMLHELP)
+GENERATE_CHI           = $(GENERATE_CHI)
+USE_MATHJAX            = YES
+MATHJAX_FORMAT         = NativeMML
+MATHJAX_RELPATH        =
+#---------------------------------------------------------------------------
+# Configuration options related to the LaTeX output
+#---------------------------------------------------------------------------
+GENERATE_LATEX         = $(GENERATE_LATEX)
+#---------------------------------------------------------------------------
+# Configuration options related to the RTF output
+#---------------------------------------------------------------------------
+GENERATE_RTF           = $(GENERATE_RTF)
+#---------------------------------------------------------------------------
+# Configuration options related to the man page output
+#---------------------------------------------------------------------------
+GENERATE_MAN           = $(GENERATE_MAN)
+#---------------------------------------------------------------------------
+# Configuration options related to the XML output
+#---------------------------------------------------------------------------
+GENERATE_XML           = $(GENERATE_XML)
+#---------------------------------------------------------------------------
+# Configuration options related to the preprocessor
+#---------------------------------------------------------------------------
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+PREDEFINED             = "DOXYGEN_RUN"
+#---------------------------------------------------------------------------
+# Configuration options related to external references
+#---------------------------------------------------------------------------
+PERL_PATH              = $(PERL_PATH)
+#---------------------------------------------------------------------------
+# Configuration options related to the dot tool
+#---------------------------------------------------------------------------
+HAVE_DOT               = $(HAVE_DOT)
+INCLUDE_GRAPH          = NO
+INCLUDED_BY_GRAPH      = NO
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+DOT_PATH               = $(DOT_PATH)
+DOT_TRANSPARENT        = YES
+DOT_MULTI_TARGETS      = YES
