@@ -1,2 +1,73 @@
 AT_INIT([all automated tests])
 AT_TESTED([rngminder])
+
+AT_SETUP([command-line parsing])
+dnl Actual tests
+AT_CHECK([rngminder], 1, [], [ignore])dnl missing command
+AT_CHECK([rngminder -u], 1, [], [ignore])dnl unknown short option
+AT_CHECK([rngminder --unknown-option], 1, [], [ignore])dnl unknown long option
+AT_CHECK([rngminder -b], 1, [], [ignore])dnl missing argument
+AT_CHECK([rngminder -ba store], 1, [], [ignore])dnl non-integer
+AT_CHECK([rngminder -b100000 store], 1, [], [ignore])dnl too large number
+AT_CHECK([rngminder unknown-command], 1, [], [ignore])dnl unknown command
+AT_CHECK([rngminder load save], 1, [], [ignore])dnl too many commands
+AT_CHECK([rngminder -v -b1], 1, [], [ignore])dnl --version plus anything else
+AT_CHECK([rngminder -v -f/], 1, [], [ignore])
+AT_CHECK([rngminder -v -k], 1, [], [ignore])
+AT_CHECK([rngminder -v load], 1, [], [ignore])
+AT_CHECK([rngminder -v store], 1, [], [ignore])
+AT_CHECK([rngminder -k store], 1, [], [ignore])dnl keep while store
+AT_CLEANUP
+
+AT_SETUP([help requested])
+dnl Actual test
+AT_CHECK([rngminder -h], , [ignore])
+AT_CLEANUP
+
+AT_SETUP([loading into RNG])
+AT_SKIP_IF([test "${USER}" != root])
+dnl Setup of test
+AT_CHECK([dd if=/dev/urandom of=cache count=1], 0, [], [ignore])
+AT_CHECK([md5sum cache >md5])
+AT_CHECK([cat /proc/sys/kernel/random/entropy_avail >fill.before])
+dnl Actual test
+AT_CHECK([rngminder -f cache load])
+dnl Post-test checks
+AT_CHECK([cat /proc/sys/kernel/random/entropy_avail >fill.after])
+AT_CHECK([test $(cat fill.after) -ge $(cat fill.before)])
+AT_CHECK([md5sum -c md5], [1], [ignore], [ignore])
+AT_CLEANUP
+
+AT_SETUP([loading into RNG, with keep flag])
+AT_SKIP_IF([test "${USER}" != root])
+dnl Setup of test
+AT_CHECK([dd if=/dev/urandom of=cache count=1], 0, [], [ignore])
+AT_CHECK([md5sum cache >md5])
+AT_CHECK([cat /proc/sys/kernel/random/entropy_avail >fill.before])
+dnl Actual test
+AT_CHECK([rngminder -f cache -k load])
+dnl Post-test checks
+AT_CHECK([cat /proc/sys/kernel/random/entropy_avail >fill.after])
+AT_CHECK([test $(cat fill.after) -ge $(cat fill.before)])
+AT_CHECK([md5sum -c md5], [0], [ignore], [ignore])
+AT_CLEANUP
+
+AT_SETUP([loading into RNG, missing file])
+dnl Actual test
+AT_CHECK([rngminder -f missing_file load], 1, [], [ignore])
+AT_CLEANUP
+
+AT_SETUP([storing from RNG])
+dnl Actual test
+AT_CHECK([rngminder -f cache store])
+dnl Post-test checks
+AT_CHECK([test $(du -b cache | cut -f1)\
+ -eq $(($(cat /proc/sys/kernel/random/poolsize)/8)) ])
+AT_CLEANUP
+
+AT_SETUP([storing from RNG, with manual poolsize])
+dnl Actual test
+AT_CHECK([rngminder -f cache -b 123 store])
+dnl Post-test checks
+AT_CHECK([test $(du -b cache | cut -f1) -eq $(((123 + 7) / 8)) ])
+AT_CLEANUP
