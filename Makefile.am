@@ -4,7 +4,7 @@ AM_CPPFLAGS = -I./build-aux/h
 # Leave CONFDIR a command-line argument: sysconfdir must be recursively
 # expanded by make, which AC_DEFINE does not do.
 AM_CPPFLAGS += -DLOCALSTATEDIR=\"$(localstatedir)\"
-AM_CXXFLAGS = -Wall -Wextra -Wpedantic -Werror
+AM_CFLAGS = -Wall -Wextra -Wpedantic -Werror
 
 # Binary compilation
 bin_PROGRAMS = rngminder
@@ -37,7 +37,7 @@ CODE_COVERAGE_GENHTML_OPTIONS = $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)\
 CODE_COVERAGE_IGNORE_PATTERN = "/usr/include/*"\
  "`readlink -f $(abs_srcdir)`/tests/*"
 AM_CPPFLAGS += $(CODE_COVERAGE_CPPFLAGS)
-AM_CFLAGS = $(CODE_COVERAGE_CFLAGS)
+AM_CFLAGS += $(CODE_COVERAGE_CFLAGS)
 AM_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
 
 # Documentation

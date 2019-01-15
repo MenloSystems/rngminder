@@ -248,12 +248,14 @@ bool do_load(const char filename[])
         return true;
     }
 
-    const size_t bufsize = 1024;
+    const int bufsize = 1024;
+    char buf[bufsize];
     struct { // compare rand_pool_info
         int entropy_count;
         int buf_size;
-        char buf[bufsize];
+        char *buf;
     } info;
+    info.buf = buf;
     for (;;) {
         info.buf_size = read(src, info.buf, bufsize);
         if (info.buf_size == -1) {
@@ -313,10 +315,10 @@ bool do_store(const char filename[], int poolsize)
         return true;
     }
 
-    const size_t bufsize = 1024;
+    const int bufsize = 1024;
     char buf[bufsize];
     for(int left=(poolsize+7)/8; left>0; ) {
-        const int needed = left>bufsize ? bufsize : left;
+        const size_t needed = left>bufsize ? bufsize : left;
         if (fread(buf, 1, needed, src) != needed) {
             perror("Reading from RNG device failed");
             fclose(src);
