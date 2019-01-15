@@ -22,7 +22,8 @@
 
 /** \brief Default name of the file to load from / store to
  */
-const char dflt_filename[] = LOCALSTATEDIR "/lib/urandom/random-seed";
+const char dflt_filename[]
+    = LOCALSTATEDIR "/lib/" PACKAGE_NAME "/random-seed";
 
 
 /** \brief Upper limit of poolsize in bits
